@@ -3,15 +3,16 @@ import '../screens/meal_detail_screen.dart';
 import '../models/meal.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({
-    Key key,
-    @required this.id,
-    @required this.imageUrl,
-    @required this.title,
-    @required this.duration,
-    @required this.complexity,
-    @required this.affordability,
-  }) : super(key: key);
+  const MealItem(
+      {Key key,
+      @required this.id,
+      @required this.imageUrl,
+      @required this.title,
+      @required this.duration,
+      @required this.complexity,
+      @required this.affordability,
+      @required this.removeItem})
+      : super(key: key);
 
   final affordability;
   final complexity;
@@ -19,6 +20,7 @@ class MealItem extends StatelessWidget {
   final int duration;
   final String imageUrl;
   final String title;
+  final removeItem;
 
   String get complexityText {
     switch (complexity) {
@@ -57,7 +59,13 @@ class MealItem extends StatelessWidget {
       context,
       MealDetailScreen.routeName,
       arguments: {'mealId': id},
-    );
+      // Any result passed to a pop can be access here when the user pops back
+      // to the page that initially pushed
+    ).then((result) {
+      if (result != null) {
+        removeItem(result);
+      }
+    });
   }
 
   @override

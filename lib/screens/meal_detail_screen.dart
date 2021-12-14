@@ -97,6 +97,14 @@ class MealDetailScreen extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.delete),
+        onPressed: () {
+          // Can pass optional data of any type to pop to be programattically access
+          // by page shown after the pop
+          Navigator.of(context).pop(routeArgs['mealId']);
+        },
+      ),
     );
   }
 }
