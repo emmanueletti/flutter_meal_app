@@ -1,5 +1,9 @@
 /// Lesson 173 of Flutter course
-///
+/// Difference between bottom navigation and top tab navigation is that
+/// top tab navigation comes with a controller that automatically keeps track
+/// of state behind the scenes. Bottom navigation requires a stateful widget and
+/// manually keeping track of state
+
 import 'package:flutter/material.dart';
 import './favourites_screen.dart';
 import './categories_screen.dart';
@@ -12,32 +16,49 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  final List<Map<String, dynamic>> _pages = [
+    {
+      'page': CategoriesScreen(),
+      'title': 'Categories',
+    },
+    {
+      'page': FavouritesScreen(),
+      'title': 'Favourites',
+    },
+  ];
+
+  int _selectedPageIndex = 0;
+
+  // Index passed automatically by Flutter
+  void _selectPage(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Meals'),
-          bottom: TabBar(
-            tabs: [
-              Tab(
-                icon: Icon(Icons.category),
-                text: 'Categories',
-              ),
-              Tab(
-                icon: Icon(Icons.star),
-                text: 'Favorites',
-              ),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_pages[_selectedPageIndex]['title']),
+      ),
+      body: _pages[_selectedPageIndex]['page'],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _selectPage,
+        backgroundColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.black,
+        currentIndex: _selectedPageIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.category),
+            title: Text('Categories'),
           ),
-        ),
-        body: TabBarView(
-          children: [
-            CategoriesScreen(),
-            FavouritesScreen(),
-          ],
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            title: Text('Favourites'),
+          )
+        ],
       ),
     );
   }
