@@ -1,13 +1,38 @@
 import 'package:flutter/material.dart';
+import './dummy_data.dart';
 import './screens/filters_screen.dart';
 import './screens/tabs_screen.dart';
 import './screens/meal_detail_screen.dart';
 import './screens/categories_meals_screen.dart';
 import './screens/categories_screen.dart';
+import './models/meal.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+// Not the best to manage state in the topmost level. Whenever that state
+// changes, the build method of the top level widget gets called meaning, entire
+// app gets rebuilt. Even though Flutter has alot of optimizations, this is still
+// not performant
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> _filters = {
+    'glutenFree': false,
+    'lactoseFree': false,
+    'vegan': false,
+    'vegetarian': false,
+  };
+
+  List<Meal> _availableMeals = DUMMY_MEALS.where((meal) {}).toList();
+
+  void _setFilters(Map<String, bool> filterData) {
+    Navigator.of(context).pop();
+    setState(() => _filters = {...filterData});
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,9 +60,10 @@ class MyApp extends StatelessWidget {
       // app is
       home: TabsScreen(),
       routes: {
-        CategoriesMealsScreen.routeName: (ctx) => CategoriesMealsScreen(),
+        CategoriesMealsScreen.routeName: (ctx) =>
+            CategoriesMealsScreen(_availableMeals),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
-        FiltersScreen.routeName: (ctx) => FiltersScreen(),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(_setFilters),
       },
       // onGenerateRoute gets hit when navigator.pushNamed is called for a route
       // that has not yet been registed in the main routes object. It ultimately

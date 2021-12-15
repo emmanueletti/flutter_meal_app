@@ -3,6 +3,9 @@
 /// top tab navigation comes with a controller that automatically keeps track
 /// of state behind the scenes. Bottom navigation requires a stateful widget and
 /// manually keeping track of state
+///
+/// Tabs screen is essentially a scaffold with embedded views for other screens.
+/// It has addons like drawer
 
 import 'package:flutter/material.dart';
 import '../widgets/main_drawer.dart';
