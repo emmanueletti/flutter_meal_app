@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../models/meal.dart';
 import '../widgets/meal_item.dart';
-import '../dummy_data.dart';
 
 class CategoriesMealsScreen extends StatefulWidget {
-  CategoriesMealsScreen(availableMeals, {Key key}) : super(key: key);
+  CategoriesMealsScreen(this.availableMeals, {Key key}) : super(key: key);
+
+  static const routeName = '/category-meals-screen';
 
   List<Meal> availableMeals;
-  static const routeName = '/category-meals-screen';
 
   @override
   State<CategoriesMealsScreen> createState() => _CategoriesMealsScreenState();

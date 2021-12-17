@@ -26,11 +26,26 @@ class _MyAppState extends State<MyApp> {
     'vegetarian': false,
   };
 
-  List<Meal> _availableMeals = DUMMY_MEALS.where((meal) {}).toList();
+  List<Meal> _availableMeals = DUMMY_MEALS;
 
   void _setFilters(Map<String, bool> filterData) {
-    Navigator.of(context).pop();
     setState(() => _filters = {...filterData});
+
+    List<Meal> _availableMeals = DUMMY_MEALS.where((meal) {
+      if (_filters['glutenFree'] && !meal.isGlutenFree) {
+        return false;
+      }
+      if (_filters['lactoseFree'] && !meal.isLactoseFree) {
+        return false;
+      }
+      if (_filters['vegan'] && !meal.isVegan) {
+        return false;
+      }
+      if (_filters['vegetarian'] && !meal.isVegetarian) {
+        return false;
+      }
+      return true;
+    }).toList();
   }
 
   @override
