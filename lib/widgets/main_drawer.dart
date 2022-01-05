@@ -50,6 +50,9 @@ class MainDrawer extends StatelessWidget {
               title: 'Meals',
               icon: Icons.restaurant,
               tapHandler: () {
+                // Have to replace the draw screen b/s we dont want that
+                // stacking up - nor do we want to navigate back to it
+                // when using navigator.pop
                 Navigator.of(context).pushReplacementNamed('/');
               }),
           buildListTile(
